@@ -1,0 +1,72 @@
+/* ================================================================
+   File Upload Wrapper & Preview
+   ================================================================
+   Handles:
+   - Custom file input styling
+   - Image preview functionality
+   - Delete/reset button behavior
+   ================================================================ */
+.file-upload-wrapper {
+    position: relative;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    background-color: white;
+    cursor: pointer;
+    padding: 10px;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+    user-select: none;
+    text-align: center;
+}
+
+.file-upload-wrapper:hover {
+    border-color: #777;
+}
+
+.file-upload-wrapper input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.upload-placeholder {
+    color: #aaa;
+    font-size: 14px;
+    pointer-events: none;
+    user-select: none;
+    line-height: 180px;
+}
+
+.preview-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    display: none;
+    border-radius: 8px;
+    background-color: #f8f8f8; /* optional: adds neutral background behind image */
+}
+
+.delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: rgba(255, 0, 0, 0.8);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    font-size: 16px;
+    display: none;
+    cursor: pointer;
+    line-height: 24px;
+    text-align: center;
+    z-index: 3;
+}
