@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class ForgotPasswordController extends Controller
 {
     protected $authService;
-    protected string $view = 'auth.';
+    protected string $view = 'AuthManagement::auth.';
 
     public function __construct(AuthServiceInterface $authService)
     {
@@ -20,7 +20,8 @@ class ForgotPasswordController extends Controller
 
     public function showLinkRequestForm()
     {
-        return view($this->view . 'passwords.email');
+        $data['header_title'] = 'Forgot Password';
+        return view($this->view . 'passwords.email', ['data' => $data]);
     }
 
     public function sendResetLinkEmail(Request $request)
@@ -32,7 +33,7 @@ class ForgotPasswordController extends Controller
         $result = $this->authService->sendResetLink($request->email);
         if ($result) {
             return back()->with('success', 'We have e-mailed your password reset link!');
-        }else {
+        } else {
             return back()->withErrors(['email' => 'We can\'t find a user with that e-mail address.']);
         }
     }

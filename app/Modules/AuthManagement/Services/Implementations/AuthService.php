@@ -1,5 +1,6 @@
 <?php
-namespace App\Services\Implementation;
+
+namespace App\Modules\AuthManagement\Services\Implementations;
 
 use App\Core\Services\Implementation\BaseService;
 use App\Modules\AuthManagement\Repositories\Interfaces\AuthRepositoryInterface;

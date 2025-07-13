@@ -22,6 +22,6 @@ class ResetPasswordMail extends Mailable
     public function build()
     {
         return $this->subject('Reset your password')
-                    ->view('auth.emails.reset');
+            ->view('AuthManagement::auth.emails.reset');
     }
 }

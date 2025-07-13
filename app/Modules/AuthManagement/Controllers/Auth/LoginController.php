@@ -31,8 +31,8 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return view('AuthManagement::auth.login');
-
+        $data['header_title'] = 'Login';
+        return view('AuthManagement::auth.login', ['data' => $data]);
     }
 
     public function login(checkCredentail $request)

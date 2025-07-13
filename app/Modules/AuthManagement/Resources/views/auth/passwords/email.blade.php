@@ -1,32 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-H0fTr9dDYhEfT9NLr79x7LkOE4kBTyD8JOj3rslVqEj9vDEOCgijR0Xql8eFoJhV" crossorigin="anonymous">
-
+@extends('layouts.app')
+@section('content')
+    @include('alert.top-end')
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #f5f7fa, #e4edf5);
-            padding: 20px;
-        }
-
         .form-container {
             width: 100%;
             max-width: 450px;
@@ -148,50 +123,45 @@
             }
         }
     </style>
-</head>
-
-<body>
-
-    <div class="form-container">
-        <div class="logo">
-            <img src="https://cdn-icons-png.flaticon.com/512/6681/6681204.png" alt="Reset Icon">
-            <h2>Reset Password</h2>
-            <p>Enter your email to receive a reset link</p>
+    <!-- Login Form -->
+    <div class="container">
+        <div class="illustration text-center">
+            <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_jcikwtux.json" background="transparent"
+                speed="1" style="width: 300px; height: 300px;" loop autoplay>
+            </lottie-player>
         </div>
 
-        @if (session('success'))
-            <div class="alert alert-info d-flex align-items-center" role="alert">
-                <div style="color:green;">{{ session('success') }}</div>
+        <div class="login-form">
+            <div class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/6681/6681204.png" alt="Reset Icon">
+                <h2>Reset Password</h2>
+                <p>Enter your email to receive a reset link</p>
             </div>
-        @endif
 
-
-
-        <form method="POST" action="{{ route('password.email') }}">
-            @csrf
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <div class="input-with-icon">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" id="email" class="form-control @error('email') is-invalid @enderror"
-                        name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
-                        placeholder="you@example.com">
+            <form method="POST" action="{{ route('password.email') }}">
+                @csrf
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" id="email" class="form-control @error('email') is-invalid @enderror"
+                            name="email" value="{{ old('email') }}" required autocomplete="email" autofocus
+                            placeholder="you@example.com">
+                    </div>
+                    @error('email')
+                        <div class="invalid-feedback"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
+                    @enderror
                 </div>
-                @error('email')
-                    <div class="invalid-feedback"><i class="fas fa-exclamation-circle"></i> {{ $message }}</div>
-                @enderror
+
+                <button type="submit" class="btn-submit">
+                    <i class="fas fa-paper-plane"></i> Send Reset Link
+                </button>
+            </form>
+
+            <div class="footer">
+                Remember your password? <a href="{{ route('login') }}">Sign In</a>
             </div>
 
-            <button type="submit" class="btn-submit">
-                <i class="fas fa-paper-plane"></i> Send Reset Link
-            </button>
-        </form>
-
-        <div class="footer">
-            Remember your password? <a href="{{ route('login') }}">Sign In</a>
         </div>
     </div>
-
-</body>
-
-</html>
+@endsection
