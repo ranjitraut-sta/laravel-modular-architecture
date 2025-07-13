@@ -16,7 +16,7 @@ class AuthManagementServiceProvider extends ServiceProvider
         $this->app->bind(LoginRepositoryInterface::class, LoginRepository::class);
 
         //binding service
-          $this->app->bind(LoginServiceInterface::class, LoginService::class);
+        $this->app->bind(LoginServiceInterface::class, LoginService::class);
 
     }
 
@@ -24,5 +24,6 @@ class AuthManagementServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/../Routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../Resources/views', 'AuthManagement');
+        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     }
 }

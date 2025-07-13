@@ -5,6 +5,7 @@ namespace App\Modules\UserManagement\Controllers;
 use App\Core\Http\BaseController;
 use App\Modules\UserManagement\Repositories\Implementations\RoleRepository;
 use App\Modules\UserManagement\Repositories\Interfaces\UserRepositoryInterface;
+use App\Modules\UserManagement\Requests\user\CreateUpdate;
 use Illuminate\Http\Request;
 
 class UserController extends BaseController
@@ -34,7 +35,7 @@ class UserController extends BaseController
         return view($this->view . '.create', ['data' => $data]);
     }
 
-    public function store(Request $request)
+    public function store(CreateUpdate $request)
     {
         $data = $request->only($this->repo->getModel()->getFillable());
 
@@ -56,7 +57,7 @@ class UserController extends BaseController
         return view($this->view . '.edit', ['data' => $data]);
     }
 
-    public function update(Request $request, $id)
+    public function update(CreateUpdate $request, $id)
     {
         $data['user'] = $this->repo->editRecord($id);
         $data = $request->only($this->repo->getModel()->getFillable());

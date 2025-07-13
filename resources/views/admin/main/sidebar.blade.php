@@ -28,7 +28,7 @@
                       [
                           'title' => 'Role',
                           'route' => 'role.index',
-                        //   'permission' => ['controller' => 'RoleController', 'method' => 'index'],
+                          'permission' => ['controller' => 'RoleController', 'method' => 'index'],
                       ],
                       [
                           'title' => 'Permission',

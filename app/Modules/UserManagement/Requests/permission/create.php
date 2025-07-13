@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Travel\destination;
+namespace App\Modules\UserManagement\Requests\permission;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class update extends FormRequest
+class create extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,16 +21,11 @@ class update extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->route()->parameter('id');
-
         return [
-            'name' => 'required',
-            'slug' => [
-                'required',
-                Rule::unique('destinations', 'slug')->ignore($id),
-            ],
-            'location' => 'required',
-            'featured_image' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg,avif,webp|max:2048',
+            'name' => ['required', 'string', 'max:255'],
+            'action' => ['required', 'string', 'max:255'],
+            'controller' => ['required', 'string', 'max:255'],
+            'group_name' => ['required', 'string', 'max:255',],
         ];
     }
 }

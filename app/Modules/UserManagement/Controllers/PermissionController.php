@@ -3,8 +3,9 @@
 namespace App\Modules\UserManagement\Controllers;
 
 use App\Core\Http\BaseController;
-use App\Http\Requests\permission\create;
 use App\Modules\UserManagement\Repositories\Interfaces\PermissionRepositoryInterface;
+use App\Modules\UserManagement\Requests\permission\create;
+
 class PermissionController extends BaseController
 {
     private $view;
