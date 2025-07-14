@@ -29,6 +29,7 @@ class MakeModule extends Command
             'Repositories/Interfaces',
             'Repositories/Implementations',
             'Database/Migrations',
+            'Traits',
         ];
 
         foreach ($folders as $folder) {
@@ -46,6 +47,7 @@ class MakeModule extends Command
         $this->createRoute($basePath, $name);
         $this->createView($basePath, $name);
         $this->createMigration($basePath, $name);
+        $this->createTrait($basePath, $name);
 
 
         $this->info("✅ Module '{$name}' scaffolded successfully.");
@@ -268,4 +270,19 @@ class Create" . $name . "Table extends Migration
         File::put($migrationPath, $content);
     }
 
+    protected function createTrait($path, $name)
+    {
+        $content = "<?php
+
+namespace App\Modules\\$name\Traits;
+
+trait {$name}Trait
+{
+    public function exampleTraitMethod()
+    {
+        // TODO: implement your module specific trait logic
+    }
+}";
+        File::put("$path/Traits/{$name}Trait.php", $content);
+    }
 }
