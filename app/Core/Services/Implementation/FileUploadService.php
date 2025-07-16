@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Implementation;
+namespace App\Core\Services\Implementation;
 
 use App\Core\Services\Interface\FileUploadServiceInterface;
 use Illuminate\Http\Request;

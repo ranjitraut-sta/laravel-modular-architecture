@@ -70,3 +70,38 @@
     text-align: center;
     z-index: 3;
 }
+
+
+
+/* ================================================================
+   Custom Pagination
+   ================================================================
+   Handles:
+   - Pagination styling
+   - Pagination behavior
+   - Pagination alignment
+   - Pagination responsiveness
+   ================================================================ */
+.custom-pagination-wrapper .pagination {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.custom-pagination-wrapper .page-item .page-link {
+    border-radius: 8px;
+    padding: 6px 14px;
+    color: #007bff;
+    border: 1px solid #dee2e6;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-pagination-wrapper .page-item.active .page-link {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.custom-pagination-wrapper .page-item.disabled .page-link {
+    color: #ccc;
+}
