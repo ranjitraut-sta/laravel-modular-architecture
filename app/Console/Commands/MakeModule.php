@@ -51,6 +51,7 @@ class MakeModule extends Command
         $this->createModuleDatabaseSeeder($basePath, $name);
         $this->createTrait($basePath, $name);
         $this->createConfig($basePath, $name);
+        $this->createAssets($basePath, $name);
 
         $this->info("Module '{$name}' scaffolded successfully.");
     }
@@ -210,7 +211,10 @@ class MakeModule extends Command
                 \$this->loadRoutesFrom(__DIR__ . '/../Routes/web.php');
                 \$this->loadViewsFrom(__DIR__ . '/../Resources/views', '{$lowerName}');
                 \$this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
-            }
+                \$this->publishes([
+                    __DIR__ . '/../Resources/assets' => public_path('modules/{$lowerName}'),
+                    ], '{$lowerName}-assets');
+                }
         }";
         File::put("$path/Providers/{$name}ServiceProvider.php", $content);
     }
@@ -328,6 +332,31 @@ class MakeModule extends Command
         ];";
 
         File::put("$path/Config/{$lowerName}.php", $content);
+    }
+
+
+    protected function createAssets($path, $name)
+    {
+        $assetsPath = $path . '/Resources/assets';
+
+        $cssPath = $assetsPath . '/css';
+        $jsPath = $assetsPath . '/js';
+        $imagesPath = $assetsPath . '/images';
+
+        File::makeDirectory($cssPath, 0755, true);
+        File::makeDirectory($jsPath, 0755, true);
+        File::makeDirectory($imagesPath, 0755, true);
+
+        // Create basic CSS file
+        $cssContent = "/* Basic styles for {$name} module */\n\nbody { font-family: Arial, sans-serif; }";
+        File::put($cssPath . '/style.css', $cssContent);
+
+        // Create basic JS file
+        $jsContent = "// Basic JS for {$name} module\nconsole.log('{$name} module loaded');";
+        File::put($jsPath . '/app.js', $jsContent);
+
+        // Create a placeholder image (optional)
+        // You can copy a placeholder or leave empty for now
     }
 
 

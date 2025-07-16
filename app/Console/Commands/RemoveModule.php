@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\File;
 
 class RemoveModule extends Command
 {
+    //  php artisan module:remove post
     protected $signature = 'module:remove {name}';
     protected $description = 'Remove a Laravel module completely from app/Modules';
 
