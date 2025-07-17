@@ -48,29 +48,37 @@ class BaseRepository implements BaseRepositoryInterface
 
     public function paginateWithSearch(
         int $perPage,
+        ?int $userId = null,
         ?string $search = null,
         array $searchableFields = [],
         array $appends = []
     ) {
         $query = $this->getModel()->newQuery();
 
+        // Filter by user ID if provided
+        if (!empty($userId)) {
+            $query->where('user_id', $userId);
+        }
+
+        // Search condition
         if (!empty($search) && !empty($searchableFields)) {
             $query->where(function ($q) use ($search, $searchableFields) {
                 foreach ($searchableFields as $field) {
                     if (str_contains($field, '.')) {
-                        // Handle relation (e.g., destination.name)
+                        // Related model search
                         [$relation, $column] = explode('.', $field);
                         $q->orWhereHas($relation, function ($relationQuery) use ($column, $search) {
                             $relationQuery->where($column, 'like', "%{$search}%");
                         });
                     } else {
-                        // Direct field
+                        // Base model search
                         $q->orWhere($field, 'like', "%{$search}%");
                     }
                 }
             });
         }
 
+        // Return paginated result
         return $query->paginate($perPage)->appends(array_merge([
             'search' => $search,
             'length' => $perPage,
