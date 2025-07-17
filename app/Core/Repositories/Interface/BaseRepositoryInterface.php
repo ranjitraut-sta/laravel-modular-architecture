@@ -10,9 +10,11 @@ interface BaseRepositoryInterface
     public function editRecord($id);
     public function updateRecord($id, array $data);
     public function deleteRecord($id);
-    public function paginateWithSearch(
+   public function paginateWithSearch(
         int $perPage,
         ?int $id = null,
+        ?string $sortDir = 'asc',
+        ?string $sortBy = null,
         ?string $search = null,
         array $searchableFields = [],
         array $appends = []

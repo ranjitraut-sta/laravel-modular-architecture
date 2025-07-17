@@ -46,9 +46,11 @@ class BaseRepository implements BaseRepositoryInterface
     }
 
 
-    public function paginateWithSearch(
+     public function paginateWithSearch(
         int $perPage,
         ?int $userId = null,
+        ?string $sortDir = 'asc',
+        ?string $sortBy = null,
         ?string $search = null,
         array $searchableFields = [],
         array $appends = []
@@ -76,6 +78,20 @@ class BaseRepository implements BaseRepositoryInterface
                     }
                 }
             });
+        }
+
+        // --- Apply sorting ---
+        // Validate sortDir
+        $sortDir = strtolower($sortDir ?? 'asc');
+        if (!in_array($sortDir, ['asc', 'desc'])) {
+            $sortDir = 'asc';
+        }
+
+        // Check if sortBy is provided and is a valid column
+        if ($sortBy && Schema::hasColumn($this->getModel()->getTable(), $sortBy)) {
+            $query->orderBy($sortBy, $sortDir);
+        } else {
+            // Default sorting if none provided or invalid
         }
 
         // Return paginated result
