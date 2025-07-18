@@ -9,7 +9,7 @@
     $tempImage = session($name . '_temp_path') ?? null;
     $imagePath = $value ? asset('storage/' . $value) : ($tempImage ? asset('storage/' . $tempImage) : '');
 
-  $isEditMode = !empty($value); // assuming $value छ भने edit mode हो
+    $isEditMode = !empty($value); // assuming $value छ भने edit mode हो
 
     if (!empty($tempImage) && !$isEditMode) {
         $imagePath = asset("storage/{$tempImage}");

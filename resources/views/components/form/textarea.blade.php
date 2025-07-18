@@ -1,3 +1,11 @@
+@props([
+    'id',
+    'name',
+    'label' => '',
+    'value' => '',
+    'placeholder' => '',
+    'required' => false,
+])
 <div class="form-group">
     <x-form.label :for="$id" :required="$required">{{ $label }}</x-form.label>
     <textarea

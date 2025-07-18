@@ -1,3 +1,11 @@
+@props([
+    'id',
+    'name',
+    'label' => '',
+    'required' => false,
+    'value' => '',
+    'placeholder' => '',
+])
 <div class="form-group mb-3">
     <x-form.label :for="$id" :required="$required">{{ $label }}</x-form.label>
     <div class="input-group">

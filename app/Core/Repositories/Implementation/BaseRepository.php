@@ -3,6 +3,7 @@
 namespace App\Core\Repositories\Implementation;
 
 use App\Core\Repositories\Interface\BaseRepositoryInterface;
+use Illuminate\Support\Facades\Schema;
 
 class BaseRepository implements BaseRepositoryInterface
 {

@@ -1,13 +1,18 @@
 @extends('layouts.app')
 @section('content')
+<style>
+    @media (max-width: 767px) {
+        .illustration {
+            display: none;
+        }
+    }
+</style>
     <!-- Login Form -->
     <div class="container">
         <div class="illustration text-center">
             <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_jcikwtux.json" background="transparent"
                 speed="1" style="width: 300px; height: 300px;" loop autoplay>
             </lottie-player>
-            <h2>Welcome Back</h2>
-            <p>A.M.D.Soft and Services Pvt. Ltd.</p>
         </div>
 
         <div class="login-form">
@@ -64,25 +69,6 @@
 
                 <button type="submit" class="btn-login w-100">Sign In</button>
 
-                <div class="divider">
-                    <span>Or continue with</span>
-                </div>
-
-                <div class="social-login">
-                    <a href="#" class="social-btn google">
-                        <i class="fab fa-google"></i>
-                    </a>
-                    <a href="#" class="social-btn facebook">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#" class="social-btn twitter">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                </div>
-
-                <div class="signup-link">
-                    Don't have an account? <a href="#">Sign up now</a>
-                </div>
             </form>
 
         </div>

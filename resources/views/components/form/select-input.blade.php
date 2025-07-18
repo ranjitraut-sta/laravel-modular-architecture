@@ -1,3 +1,11 @@
+@props([
+    'id',
+    'name',
+    'label' => '',
+    'required' => false,
+    'value' => '',
+    'options' => [],
+])
 <div class="form-group">
     <x-form.label :for="$id" :required="$required">{{ $label }}</x-form.label>
     <select name="{{ $name }}" id="{{ $id }}" class="form-control" @if($required) required @endif>
