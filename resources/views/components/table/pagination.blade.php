@@ -1,67 +1,62 @@
 @if ($records->hasPages())
-    @php
-        $current = $records->currentPage();
-        $last = $records->lastPage();
-    @endphp
-
-    <nav class="custom-pagination-wrapper d-flex justify-content-end mt-4">
-        <ul class="pagination gap-1">
+    <nav class="d-flex justify-content-end mt-4">
+        <ul class="pagination">
 
             {{-- Previous --}}
-            @if ($current == 1)
-                <li class="page-item disabled"><span class="page-link">&laquo; Prev</span></li>
-            @else
-                <li class="page-item"><a class="page-link" href="{{ $records->previousPageUrl() }}">&laquo; Prev</a></li>
-            @endif
+            <li class="page-item {{ $records->onFirstPage() ? 'disabled' : '' }}">
+                <a class="page-link" href="{{ $records->previousPageUrl() ?? '#' }}" tabindex="-1">&laquo;</a>
+            </li>
 
-            {{-- Page 1 --}}
+            @php
+                $current = $records->currentPage();
+                $last = $records->lastPage();
+            @endphp
+
+            {{-- Always show page 1 --}}
             <li class="page-item {{ $current == 1 ? 'active' : '' }}">
                 <a class="page-link" href="{{ $records->url(1) }}">1</a>
             </li>
 
-            {{-- Page 2 --}}
-            @if ($last >= 2)
-                <li class="page-item {{ $current == 2 ? 'active' : '' }}">
+            {{-- Show page 2 if current > 3 --}}
+            @if ($current > 3)
+                <li class="page-item">
                     <a class="page-link" href="{{ $records->url(2) }}">2</a>
                 </li>
             @endif
 
-            {{-- Left Dots --}}
+            {{-- Dots if needed --}}
             @if ($current > 4)
                 <li class="page-item disabled"><span class="page-link">...</span></li>
             @endif
 
-            {{-- Middle Pages --}}
+            {{-- Pages around current --}}
             @for ($i = max(3, $current - 1); $i <= min($last - 2, $current + 1); $i++)
-                @if ($i > 2 && $i < $last - 1)
-                    <li class="page-item {{ $current == $i ? 'active' : '' }}">
-                        <a class="page-link" href="{{ $records->url($i) }}">{{ $i }}</a>
-                    </li>
-                @endif
+                <li class="page-item {{ $current == $i ? 'active' : '' }}">
+                    <a class="page-link" href="{{ $records->url($i) }}">{{ $i }}</a>
+                </li>
             @endfor
 
-            {{-- Right Dots --}}
+            {{-- Dots if needed --}}
             @if ($current < $last - 3)
                 <li class="page-item disabled"><span class="page-link">...</span></li>
             @endif
 
-            {{-- Last 2 pages --}}
-            @if ($last >= 2)
-                <li class="page-item {{ $current == $last - 1 ? 'active' : '' }}">
-                    <a class="page-link" href="{{ $records->url($last - 1) }}">{{ $last - 1 }}</a>
-                </li>
+            {{-- Last two pages --}}
+            @if ($last > 1)
+                @if ($current < $last - 1)
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $records->url($last - 1) }}">{{ $last - 1 }}</a>
+                    </li>
+                @endif
                 <li class="page-item {{ $current == $last ? 'active' : '' }}">
                     <a class="page-link" href="{{ $records->url($last) }}">{{ $last }}</a>
                 </li>
             @endif
 
             {{-- Next --}}
-            @if ($records->hasMorePages())
-                <li class="page-item"><a class="page-link" href="{{ $records->nextPageUrl() }}">Next &raquo;</a></li>
-            @else
-                <li class="page-item disabled"><span class="page-link">Next &raquo;</span></li>
-            @endif
-
+            <li class="page-item {{ !$records->hasMorePages() ? 'disabled' : '' }}">
+                <a class="page-link" href="{{ $records->nextPageUrl() ?? '#' }}">&raquo;</a>
+            </li>
         </ul>
     </nav>
 @endif

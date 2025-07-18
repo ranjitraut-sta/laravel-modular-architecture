@@ -37,8 +37,6 @@
                         </span>
                     @enderror
                 </div>
-
-
                 <div class="form-group">
                     <label for="password">Password</label>
                     <div class="input-with-icon">
@@ -55,8 +53,6 @@
                         </span>
                     @enderror
                 </div>
-
-
                 <div class="options">
                     <div class="remember">
                         <input type="checkbox" id="remember" />
@@ -66,9 +62,7 @@
                         <a href="{{ route('password.request') }}" class="forgot-password">{{ __('Forgot Password ?') }}</a>
                     @endif
                 </div>
-
                 <button type="submit" class="btn-login w-100">Sign In</button>
-
             </form>
 
         </div>
