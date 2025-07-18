@@ -55,14 +55,9 @@ class BaseService
         return (array) $data;
     }
 
-    public function getPaginationLimit(int $perPage)
-    {
-        return $this->repository->getPaginationLimit($perPage);
-    }
-
-    public function paginateWithSearch(int $perPage, ?string $search = null, array $searchableFields = ['name'], array $appends = [])
-    {
-        return $this->repository->paginateWithSearch($perPage, $search, $searchableFields, $appends);
-    }
+   public function paginateWithSearchFilters(int $perPage, array $filters = [], ?string $filterField = null, ?int $filterId = null, ?string $sortDir = 'asc', ?string $sortBy = null, array $searchableFields = [], array $appends = [])
+   {
+       return $this->repository->paginateWithSearchFilters($perPage, $filters, $filterField, $filterId, $sortDir, $sortBy, $searchableFields, $appends);
+   }
 
 }

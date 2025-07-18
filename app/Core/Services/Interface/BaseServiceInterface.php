@@ -9,6 +9,5 @@ interface BaseServiceInterface
     public function editRecord(int $id);
     public function updateRecord($data, int $id);
     public function deleteRecord(int $id);
-    public function getPaginationLimit(int $perPage);
-    public function paginateWithSearch(int $perPage, ?string $search = null, array $searchableFields = ['name'], array $appends = []);
+    public function paginateWithSearchFilters(int $perPage, array $filters = [], ?string $filterField = null, ?int $filterId = null, ?string $sortDir = 'asc', ?string $sortBy = null, array $searchableFields = [], array $appends = []);
 }

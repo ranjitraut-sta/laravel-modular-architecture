@@ -47,59 +47,82 @@ class BaseRepository implements BaseRepositoryInterface
     }
 
 
-     public function paginateWithSearch(
+    public function paginateWithSearchFilters(
         int $perPage,
-        ?int $userId = null,
+        array $filters = [],
+        ?string $filterField = null,
+        ?int $filterId = null,
         ?string $sortDir = 'asc',
         ?string $sortBy = null,
-        ?string $search = null,
         array $searchableFields = [],
         array $appends = []
     ) {
-        $query = $this->getModel()->newQuery();
+        $query = $this->model->newQuery();
 
-        // Filter by user ID if provided
-        if (!empty($userId)) {
-            $query->where('user_id', $userId);
+
+        // Dynamic single ID filter if given
+        if (!empty($filterField) && !empty($filterId)) {
+            $query->where($filterField, $filterId);
         }
 
-        // Search condition
-        if (!empty($search) && !empty($searchableFields)) {
+        // Apply normal filters except search and date_filters
+        foreach ($filters as $key => $value) {
+            if (empty($value) || in_array($key, ['search', 'date_filters'])) {
+                continue;
+            }
+            if (Schema::hasColumn($this->model->getTable(), $key)) {
+                $query->where($key, $value);
+            }
+        }
+
+        // Date range filters (dynamic columns)
+        if (!empty($filters['date_filters']) && is_array($filters['date_filters'])) {
+            foreach ($filters['date_filters'] as $column => $range) {
+                if (!Schema::hasColumn($this->model->getTable(), $column)) {
+                    continue;
+                }
+                if (!empty($range['from'])) {
+                    $query->whereDate($column, '>=', $range['from']);
+                }
+                if (!empty($range['to'])) {
+                    $query->whereDate($column, '<=', $range['to']);
+                }
+            }
+        }
+
+        // Search in searchable fields (including relations)
+        if (!empty($filters['search']) && !empty($searchableFields)) {
+            $search = $filters['search'];
             $query->where(function ($q) use ($search, $searchableFields) {
                 foreach ($searchableFields as $field) {
                     if (str_contains($field, '.')) {
-                        // Related model search
                         [$relation, $column] = explode('.', $field);
                         $q->orWhereHas($relation, function ($relationQuery) use ($column, $search) {
                             $relationQuery->where($column, 'like', "%{$search}%");
                         });
                     } else {
-                        // Base model search
                         $q->orWhere($field, 'like', "%{$search}%");
                     }
                 }
             });
         }
 
-        // --- Apply sorting ---
-        // Validate sortDir
+        // Sorting
         $sortDir = strtolower($sortDir ?? 'asc');
         if (!in_array($sortDir, ['asc', 'desc'])) {
             $sortDir = 'asc';
         }
-
-        // Check if sortBy is provided and is a valid column
-        if ($sortBy && Schema::hasColumn($this->getModel()->getTable(), $sortBy)) {
-            $query->orderBy($sortBy, $sortDir);
-        } else {
-            // Default sorting if none provided or invalid
+        // Use default sort column if invalid or missing
+        if (!$sortBy || !Schema::hasColumn($this->model->getTable(), $sortBy)) {
+            $sortBy = 'id';
         }
+        $query->orderBy($sortBy, $sortDir);
 
-        // Return paginated result
+        // Return paginated result with appended query params
         return $query->paginate($perPage)->appends(array_merge([
-            'search' => $search,
             'length' => $perPage,
-        ], $appends));
+        ], $filters, $appends));
     }
+
 
 }
